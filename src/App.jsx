@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { increment, decrement } from './store/counterSlice'
-import Header from './components/Header.jsx'
-import Footer from './components/Footer.jsx'
+import Header from './components/Header/Header.jsx'
+import Footer from './components/Footer/Footer.jsx'
 
 function App() {
   const count = useSelector(state => state.counter.value)
@@ -9,33 +9,14 @@ function App() {
   const dispatch = useDispatch()
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      background: '#f8f9fa'
-    }}>
-      <Header />
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Header />
 
-      <main style={{
-        flex: 1,
-        textAlign: 'center',
-        padding: '2rem',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <h1>Лабораторная работа 1</h1>
-        <h2 style={{ color: '#007bff', margin: '1rem 0' }}>
-          {message}
-        </h2>
-        
-        <p style={{ fontSize: '3rem', margin: '2rem 0', fontWeight: 'bold' }}>
-          {count}
-        </p>
-
-        <div>
+        <main style={{ flex: 1, padding: '2rem', textAlign: 'center' }}>
+          <h1>Лабораторная работа 2 — Навигация</h1>
+          <h2>{message}</h2>
+          <p style={{ fontSize: '4rem', margin: '2rem 0' }}>{count}</p>
+          
           <button 
             onClick={() => dispatch(increment())}
             style={{
@@ -66,12 +47,11 @@ function App() {
           >
             -1
           </button>
-        </div>
-      </main>
+        </main>
 
-      <Footer />
-    </div>
-  )
+        {/* <Footer /> */}
+      </div>
+  );
 }
 
 export default App
