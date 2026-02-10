@@ -1,17 +1,19 @@
+import styles from './Footer.module.css';
+
 function Footer() {
   return (
-    <footer style={{
-      background: '#343a40',
-      color: 'white',
-      padding: '1.2rem',
-      textAlign: 'center',
-      marginTop: 'auto'
-    }}>
-      <p style={{ margin: 0 }}>
-        Лабораторная работа 1 — React + Redux © 2026
+    <footer className={styles.footer}>
+      <p className={styles.copyright}>
+        Лабораторная работа №3 — React + Redux + API
+      </p>
+      <p className={styles.copyright}>
+        © 2026 | Tokmok, Programming Languages II
+      </p>
+      <p className={styles.extra}>
+        Данные загружены из JSONPlaceholder и DummyJSON
       </p>
     </footer>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

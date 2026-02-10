@@ -1,0 +1,18 @@
+.footer {
+  background: #343a40;
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+  margin-top: auto;
+  font-size: 0.95rem;
+}
+
+.copyright {
+  margin: 0.3rem 0;
+}
+
+.extra {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
