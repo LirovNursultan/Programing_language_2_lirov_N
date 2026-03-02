@@ -29,7 +29,7 @@ function Header() {
             </li>
             <li>
               <NavLink 
-                to="/todo" 
+                to="/#todo-section" 
                 className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}
               >
                 TODO List
@@ -37,7 +37,7 @@ function Header() {
             </li>
             <li>
               <NavLink 
-                to="/users" 
+                to="/#users-section" 
                 className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}
               >
                 Пользователи (API)
