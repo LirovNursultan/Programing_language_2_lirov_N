@@ -1,15 +1,122 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import PostsCrud from './components/PostsCrud/PostsCrud.jsx';
 
-// Счётчик из первой лабы
+// Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { increment, decrement } from './store/counterSlice';
+import { loginUser, registerUser } from './store/authSlice';
 
+// ====================== Login Page ======================
+function LoginPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const { isLoading, error } = useSelector(state => state.auth);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginUser({ username, password }));
+  };
+
+  return (
+    <div style={{ maxWidth: '420px', margin: '120px auto', padding: '2.5rem', background: 'white', borderRadius: '12px', boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Вход в аккаунт</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Логин"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          style={{ width: '100%', padding: '14px', margin: '10px 0', borderRadius: '8px', border: '1px solid #ccc' }}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Пароль"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{ width: '100%', padding: '14px', margin: '10px 0', borderRadius: '8px', border: '1px solid #ccc' }}
+          required
+        />
+        <button 
+          type="submit" 
+          disabled={isLoading}
+          style={{ width: '100%', padding: '14px', marginTop: '15px', background: '#007bff', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem' }}
+        >
+          {isLoading ? 'Вход...' : 'Войти'}
+        </button>
+      </form>
+      {error && <p style={{ color: 'red', textAlign: 'center', marginTop: '15px' }}>{error}</p>}
+      <p style={{ textAlign: 'center', marginTop: '20px' }}>
+        Нет аккаунта? <a href="/register" style={{ color: '#007bff' }}>Зарегистрироваться</a>
+      </p>
+    </div>
+  );
+}
+
+// ====================== Register Page ======================
+function RegisterPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const dispatch = useDispatch();
+  const { isLoading, error } = useSelector(state => state.auth);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(registerUser({ username, password, name }));
+  };
+
+  return (
+    <div style={{ maxWidth: '420px', margin: '80px auto', padding: '2.5rem', background: 'white', borderRadius: '12px', boxShadow: '0 8px 25px rgba(0,0,0,0.1)' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Регистрация</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Полное имя"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{ width: '100%', padding: '14px', margin: '10px 0', borderRadius: '8px', border: '1px solid #ccc' }}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Логин"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          style={{ width: '100%', padding: '14px', margin: '10px 0', borderRadius: '8px', border: '1px solid #ccc' }}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Пароль"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{ width: '100%', padding: '14px', margin: '10px 0', borderRadius: '8px', border: '1px solid #ccc' }}
+          required
+        />
+        <button 
+          type="submit" 
+          disabled={isLoading}
+          style={{ width: '100%', padding: '14px', marginTop: '15px', background: '#28a745', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem' }}
+        >
+          {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
+        </button>
+      </form>
+      {error && <p style={{ color: 'red', textAlign: 'center', marginTop: '15px' }}>{error}</p>}
+      <p style={{ textAlign: 'center', marginTop: '20px' }}>
+        Уже есть аккаунт? <a href="/login" style={{ color: '#007bff' }}>Войти</a>
+      </p>
+    </div>
+  );
+}
+
+// ====================== Counter Page ======================
 function CounterPage() {
   const count = useSelector(state => state.counter.value);
   const message = useSelector(state => state.counter.message);
@@ -38,78 +145,26 @@ function CounterPage() {
       </p>
 
       <div style={{ display: 'flex', gap: '3rem', marginTop: '3rem' }}>
-        <button
-          onClick={() => dispatch(increment())}
-          style={{
-            padding: '1.2rem 4rem',
-            fontSize: '2rem',
-            background: '#28a745',
-            color: 'white',
-            border: 'none',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            boxShadow: '0 6px 12px rgba(0,0,0,0.2)'
-          }}
-        >
-          +1
-        </button>
-
-        <button
-          onClick={() => dispatch(decrement())}
-          style={{
-            padding: '1.2rem 4rem',
-            fontSize: '2rem',
-            background: '#dc3545',
-            color: 'white',
-            border: 'none',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            boxShadow: '0 6px 12px rgba(0,0,0,0.2)'
-          }}
-        >
-          -1
-        </button>
+        <button onClick={() => dispatch(increment())} style={{ padding: '1.2rem 4rem', fontSize: '2rem', background: '#28a745', color: 'white', border: 'none', borderRadius: '10px', cursor: 'pointer' }}>+1</button>
+        <button onClick={() => dispatch(decrement())} style={{ padding: '1.2rem 4rem', fontSize: '2rem', background: '#dc3545', color: 'white', border: 'none', borderRadius: '10px', cursor: 'pointer' }}>-1</button>
       </div>
     </div>
   );
 }
 
 function TodoPage() {
-  return (
-    <div style={{ textAlign: 'center', padding: '8rem 2rem' }}>
-      <h1>TODO List</h1>
-      <p>Этот раздел будет реализован позже</p>
-    </div>
-  );
+  return <h1 style={{ textAlign: 'center', padding: '8rem' }}>TODO List</h1>;
 }
 
 function UsersApiPage() {
-  return (
-    <div style={{ textAlign: 'center', padding: '8rem 2rem' }}>
-      <h1>Пользователи (API)</h1>
-      <p>Расширенная страница пользователей</p>
-    </div>
-  );
+  return <h1 style={{ textAlign: 'center', padding: '8rem' }}>Пользователи (API)</h1>;
 }
 
 function AboutPage() {
-  return (
-    <div style={{ padding: '6rem 2rem', maxWidth: '900px', margin: '0 auto' }}>
-      <h1>О проекте</h1>
-      <p>Учебный проект по React + Redux + RTK Query</p>
-      <p>Курс «Языки программирования II»</p>
-      <ul style={{ textAlign: 'left', margin: '2rem 0', lineHeight: '1.8' }}>
-        <li>Счётчик на Redux Toolkit</li>
-        <li>Навигация react-router-dom</li>
-        <li>Загрузка данных из DummyJSON и JSONPlaceholder</li>
-        <li>List / Detail для пользователей</li>
-        <li>CRUD постов с оптимистичными обновлениями</li>
-      </ul>
-    </div>
-  );
+  return <h1 style={{ textAlign: 'center', padding: '8rem' }}>О проекте</h1>;
 }
 
-// Главная страница
+// ====================== HomePage (полная) ======================
 function HomePage() {
   const [posts, setPosts] = useState([]);
   const [todos, setTodos] = useState([]);
@@ -150,15 +205,7 @@ function HomePage() {
 
   if (loading) {
     return (
-      <div style={{ 
-        flex: 1, 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        fontSize: '2rem',
-        color: '#007bff',
-        padding: '6rem 1rem'
-      }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#007bff', padding: '6rem 1rem' }}>
         Загрузка данных... (имитация задержки)
       </div>
     );
@@ -166,13 +213,7 @@ function HomePage() {
 
   if (error) {
     return (
-      <div style={{ 
-        flex: 1, 
-        textAlign: 'center', 
-        padding: '8rem 1rem',
-        color: '#dc3545',
-        fontSize: '1.5rem'
-      }}>
+      <div style={{ flex: 1, textAlign: 'center', padding: '8rem 1rem', color: '#dc3545', fontSize: '1.5rem' }}>
         <h2>{error}</h2>
       </div>
     );
@@ -318,7 +359,10 @@ function HomePage() {
   );
 }
 
+// ====================== Главный App ======================
 function App() {
+  const { user } = useSelector(state => state.auth);
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f8f9fa' }}>
       <Header />
@@ -330,6 +374,9 @@ function App() {
           <Route path="/todo" element={<TodoPage />} />
           <Route path="/users" element={<UsersApiPage />} />
           <Route path="/about" element={<AboutPage />} />
+
+          <Route path="/login" element={user ? <Navigate to="/" /> : <LoginPage />} />
+          <Route path="/register" element={user ? <Navigate to="/" /> : <RegisterPage />} />
         </Routes>
       </main>
 
