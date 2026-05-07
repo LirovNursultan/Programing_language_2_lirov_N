@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './counterSlice';
-import authReducer from './authSlice';
-import todoReducer from './todoSlice';
-import interactionReducer from './interactionSlice';
-import { postsApi } from './api/postsApi';
+import counterReducer from './slices/counterSlice';
+import authReducer from './slices/authSlice';
+import todoReducer from './slices/todoSlice';
+import interactionReducer from './slices/interactionSlice';
+import { postsApi } from '../services/postsApi';
 
 export const store = configureStore({
   reducer: {

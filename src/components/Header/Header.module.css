@@ -18,15 +18,10 @@
 }
 
 .logo {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: bold;
   text-decoration: none;
   color: white;
-  transition: color 0.3s;
-}
-
-.logo:hover {
-  color: #e0e0e0;
 }
 
 .navList {
@@ -34,49 +29,33 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .link {
-  color: white;
+  color: rgba(255,255,255,0.85);
   text-decoration: none;
   font-weight: 500;
-  padding: 0.5rem 0;
-  transition: all 0.3s;
+  padding: 0.4rem 0;
+  transition: color 0.2s;
   position: relative;
 }
 
-.link:hover {
-  color: #ffd700;
-}
+.link:hover { color: #ffd700; }
 
 .link::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
+  bottom: 0; left: 0;
+  width: 0; height: 2px;
   background: #ffd700;
   transition: width 0.3s;
 }
 
-.link:hover::after {
-  width: 100%;
-}
+.link:hover::after, .active::after { width: 100%; }
 
-.active {
-  color: #ffd700;
-  font-weight: bold;
-}
+.active { color: #ffd700; font-weight: bold; }
 
-.active::after {
-  width: 100%;
-}
-
-
-@media (max-width: 768px) {
-  .navList {
-    display: none; 
-  }
+@media (max-width: 640px) {
+  .navList { display: none; }
 }
